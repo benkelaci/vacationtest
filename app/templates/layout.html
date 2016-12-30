@@ -1,0 +1,62 @@
+<html>
+  <head>
+    {% block head %}
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+    <title>{% block title %}{% endblock %} - Vacation management</title>
+    {% endblock %}
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <!--&lt;!&ndash;<link rel="stylesheet" href="/resources/demos/style.css">&ndash;&gt;-->
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">-->
+    <!--<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!--<link href='../fullcalendar.css' rel='stylesheet' />-->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style type="text/css">
+      #wrap {
+         width:100%;
+         margin:0 auto;
+      }
+      #left_col {
+         float:left;
+         width:30%;
+         margin:10;
+         <!--background-color:#87ceeb;-->
+      }
+      #right_col {
+         float:right;
+         width:60%;
+         margin:10;
+         <!--background-color:#222222;-->
+      }
+    </style>
+  </head>
+  <body>
+  <center><h1>Vacation management</h1></center>
+    <div id="wrap">
+        <div id="left_col">
+            <div id="content">{% block content %}{% endblock %}</div>
+        </div>
+        <div id="right_col">
+            <h1>Calendar</h1>
+            {% include 'gcal.html' %}
+        </div>
+    </div>
+    <div id="footer">
+      {% block footer %}
+  </div>
+
+
+  </div>
+
+      {% endblock %}
+    </div>
+  </body>
+</html>

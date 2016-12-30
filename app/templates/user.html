@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+       .important { color: #336699; }
+    </style>
+    {% endblock %}
+{% block content %}
+    <h1>Hello
+        {% if main_role_id == 3%}
+            Admin
+        {% else %}
+            {{user.fullname}}
+        {%endif %}
+    </h1>
+    {% if main_role_id == 3%}
+        <h2>Selected user: {{user.username}}</h2>
+    {%endif %}
+        <h3>role:  {{user_role_name}}</h3>
+    {% if main_role_id == 3 and user.role_id != 3%}
+        <form style="display: inline;" method="post" id="viewer" target="_self">
+           <a href='#' onclick="document.getElementById('viewer').submit();"> to change viewer</a>
+           <input type="hidden" name="user_id" value="{{user.id}}">
+           <input type="hidden" name="mytype" value="viewer">
+        </form>
+        <br>
+        <form style="display: inline;" method="post" id="employee" target="_self">
+           <a href='#' onclick="document.getElementById('employee').submit();"> to change employee</a>
+           <input type="hidden" name="user_id" value="{{user.id}}">
+           <input type="hidden" name="mytype" value="employee">
+        </form>
+    {%endif %}
+
+    <h3>Vacations</h3>
+    {% for vac in vacations %}
+        {{loop.index}}: {{vac.from_date.strftime('%Y-%m-%d')}} - {{vac.to_date.strftime('%Y-%m-%d')}} [{{statuses[vac.status_id]}}]
+        {% if main_role_id == 3%}
+            <form style="display: inline;" method="post" id="accept" target="_self">
+               <!--<input type="submit" value="accept">-->
+               <a href='#' onclick="document.getElementById('accept').submit();"> Accept</a>
+               <input type="hidden" name="vac_id" value="{{vac.id}}">
+               <input type="hidden" name="mytype" value="accept">
+            </form>
+            <form style="display: inline;" method="post" id="decline" target="_self">
+               <!--<input type="submit" value="accept">-->
+               <a href='#' onclick="document.getElementById('decline').submit();"> Decline</a>
+               <input type="hidden" name="vac_id" value="{{vac.id}}">
+               <input type="hidden" name="mytype" value="decline">
+            </form>
+        {%endif %}<br>
+    {% endfor %}
+    {% if vacations|length < 1 %}
+        <i>No vacations</i>
+    {%endif %}
+    {% if main_role_id > 1 %}
+        <div data-role="main" class="ui-content">
+           <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-plus ui-btn-icon-left">
+           Add new vacation request
+           </a>
+           <div data-role="popup" id="myPopup" class="ui-content" style="min-width:250px;">
+              <form method="post" id="newvacation" target="_self">
+                 <div>
+                    <h3>New vacation request</h3>
+                    <input type="text" name="comment" id="comment" placeholder="comment">
+                    <input type="hidden" name="mytype" value="new_request">
+                    <!--<label for="pswd" class="ui-hidden-accessible">Password:</label>-->
+                    from: <input type="date" value={{datedefault_from}} name="from_date">
+                    to: <input type="date" value={{datedefault_to}} name="to_date">
+                    <input type="submit" data-inline="true" value="Submit">
+                 </div>
+              </form>
+           </div>
+        </div>
+    {%endif %}
+    {% if main_role_id == 3%}
+        <form method="get" id="back" action="/vacation/admin" target="_self">
+           <input type="submit" value="Go to user list">
+        </form>
+    {%endif %}
+    <form method="get" action="/vacation/logout" target="_self">
+       <input type="submit" value="Logout">
+    </form>
+{% endblock %}
